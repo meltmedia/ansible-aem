@@ -1,0 +1,14 @@
+---
+
+- name: "mkdir -p {{ aem_install_dir }}/crx-quickstart/repository/"
+  file:
+    path: "{{ aem_install_dir }}/crx-quickstart/repository/"
+    state: directory
+
+- name: Preload service packs into /crx-quickstart/install folder for auto-install on first startup
+  get_url:
+    url: "{{ item }}"
+    dest: "{{ aem_install_dir }}/crx-quickstart/repository/{{ item }}"
+    mode: 0440
+  with_items:
+    "{{ aem_service_packs }}"

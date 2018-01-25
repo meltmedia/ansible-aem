@@ -1,0 +1,8 @@
+#!/bin/bash
+
+{% if "{{ aem_port }}" == "4052" %}
+  export CQ_JVM_OPTS="-server -Xms2048m -Xmx4096m -XX:MaxPermSize=256M -Djava.awt.headless=true"
+{% endif %}
+
+export CQ_RUNMODE="{{ aem_type }},$CQ_RUNMODE"
+export CQ_PORT="{{ aem_port }}"

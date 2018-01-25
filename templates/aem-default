@@ -1,0 +1,19 @@
+#!/bin/bash
+
+export CQ_JVM_OPTS="-server -Xms1024m -Xmx2048m -XX:MaxPermSize=256M -Djava.awt.headless=true"
+export CQ_RUNMODE="{{aem_runmode}}"
+
+# TCP port used for stop and status scripts
+if [ -z "$CQ_PORT" ]; then
+  export CQ_PORT=4502
+fi
+
+# config for jaas
+if [ -z "$CQ_JAAS_CONFIG" ]; then
+  export CQ_JAAS_CONFIG='etc/jaas.config'
+fi
+
+# file size limit (ulimit)
+if [ -z "$CQ_FILE_SIZE_LIMIT" ]; then
+  export CQ_FILE_SIZE_LIMIT=8192
+fi

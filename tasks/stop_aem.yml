@@ -1,0 +1,12 @@
+---
+
+- name: Wait for instance to be up at running
+  wait_for:
+    path: "{{ aem_install_dir }}/crx-quickstart/logs/error.log"
+    search_regex: "{{ aem_log_watch_value }}"
+    timeout: "{{aem_start_timeout}}"
+
+- name: Stop instance
+  service:
+    name: "aem-{{ aem_type }}"
+    state: stopped

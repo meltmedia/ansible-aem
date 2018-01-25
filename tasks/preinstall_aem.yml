@@ -1,0 +1,56 @@
+---
+
+- name: create install directory
+  file:
+    path: "{{ aem_install_dir }}"
+    state: directory
+
+- name: link install paths
+  file:
+    src: "{{ aem_install_dir }}"
+    dest: "{{ aem_link_path }}"
+    owner: "{{ aem_user }}"
+    group: "{{ aem_group }}"
+    state: link
+
+- name: Download cq-jar and license files
+  get_url:
+    url: "{{ aem_file_srv }}/packages/adobe-cq/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: 0440
+  with_items:
+    - "license.properties"
+    - "cq-quickstart-{{ aem_cq_version }}.jar"
+
+- name: Copy cq-jar install dirs
+  copy:
+    src: "/tmp/cq-quickstart-{{ aem_cq_version }}.jar"
+    dest: "{{ aem_link_path }}/"
+    remote_src: yes
+
+- name: Copy license file to install dirs
+  copy:
+    src: "/tmp/license.properties"
+    dest: "{{ aem_link_path }}/"
+    remote_src: yes
+
+- name: Delete cq-quickstart folder if present and configured to delete.
+  file:
+    state: absent
+    path: "{{ aem_install_dir }}/crx-quickstart"
+  when: aem_clean_jcr
+
+- name: Perform the install and CQ setup.
+  command: java -jar "cq-quickstart-{{ aem_cq_version }}.jar" -unpack
+  args:
+    chdir: "{{ aem_install_dir }}/"
+
+- include: install_service_packs.yml
+  when: aem_install_service_packs
+
+- name: "Set the permissions on the {{ aem_install_dir }}"
+  file:
+    path: "{{ aem_install_dir }}"
+    owner: "{{ aem_user }}"
+    group: "{{ aem_group }}"
+    recurse: yes

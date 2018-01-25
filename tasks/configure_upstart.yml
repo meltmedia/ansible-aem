@@ -1,0 +1,21 @@
+---
+- name: Install the upstart scripts
+  template:
+    src: templates/upstart.conf
+    dest: "/etc/init/aem-{{ aem_type }}.conf"
+    owner: "{{ aem_user }}"
+    group: "{{ aem_group }}"
+
+- name: Install the upstart script with defaults
+  template:
+    src: templates/aem-script
+    dest: "/etc/default/aem-{{ aem_type }}"
+    owner: "{{ aem_user }}"
+    group: "{{ aem_group }}"
+
+- name: Install the upstart script with defaults
+  template:
+    src: templates/aem-default
+    dest: /etc/default/aem-default
+    owner: "{{ aem_user }}"
+    group: "{{ aem_group }}"

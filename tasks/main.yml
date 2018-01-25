@@ -1,0 +1,13 @@
+---
+# tasks file for ansible-aem
+- include: preinstall_aem.yml
+
+- include: configure_upstart.yml
+
+- name: Start instance
+  service:
+    name: "aem-{{ aem_type }}"
+    state: started
+
+- include: stop_aem.yml
+  when: aem_stop_after_started

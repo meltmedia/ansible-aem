@@ -1,0 +1,24 @@
+---
+# defaults file for ansible-aem
+aem_file_srv: ""
+aem_cq_version: "6.3.0"
+aem_install_service_packs: False
+
+  # configurable list of full urls to service packs to be preinstalled when aem_install_service_packs == True
+aem_service_packs:
+
+aem_user: "ubuntu"
+aem_group: "ubuntu"
+aem_apache_user: "www-data"
+
+aem_type: "author"
+aem_link_path: "/opt/aem-{{ aem_type }}"
+aem_install_dir: "/opt/aem-{{ aem_type }}-{{ aem_cq_version }}"
+aem_port: "4502"
+
+aem_log_watch_value: "com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener Startup finished"
+aem_clean_jcr: True
+aem_stop_after_started: True
+aem_runmode: "meltmedia"
+aem_start_timeout: 1500
+
