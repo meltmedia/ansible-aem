@@ -14,4 +14,5 @@ install:
   - pip install ansible
 
 script:
+  - ansible-galaxy install -r tests/requirements.yml
   - ansible-playbook tests/test.yml -i tests/inventory
